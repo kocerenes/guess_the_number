@@ -15,16 +15,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ResultScreen() {
+fun ResultScreen(result : Boolean) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Kazandınız", fontSize = 40.sp)
-        Image(
-            painter = painterResource(id = R.drawable.mutlu_resim),
-            contentDescription =""
-        )
+
+        if (result){
+            Text(text = "Kazandınız", fontSize = 40.sp)
+            Image(
+                painter = painterResource(id = R.drawable.mutlu_resim),
+                contentDescription =""
+            )
+        }else{
+            Text(text = "Kaybettiniz", fontSize = 40.sp)
+            Image(
+                painter = painterResource(id = R.drawable.mutsuz_resim),
+                contentDescription =""
+            )
+        }
+
+
     }
 }

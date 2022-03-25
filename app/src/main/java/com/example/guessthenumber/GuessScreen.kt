@@ -17,9 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun GuessScreen() {
+fun GuessScreen(navController: NavController) {
 
     val tfGuess = remember { mutableStateOf("") }
 
@@ -39,7 +40,9 @@ fun GuessScreen() {
 
         Button(
             onClick = {
-
+                navController.navigate("result_screen/false") {
+                    popUpTo("guess_screen") { inclusive = true }
+                }
             },
             modifier = Modifier.size(250.dp, 50.dp),
         ) {

@@ -17,6 +17,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.guessthenumber.ui.theme.GuessTheNumberTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,7 +32,7 @@ class MainActivity : ComponentActivity() {
             GuessTheNumberTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    HomePage()
+                    PagePass()
                 }
             }
         }
@@ -34,7 +40,27 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun HomePage() {
+fun PagePass() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "homepage") {
+        composable("homepage") {
+            HomePage(navController = navController)
+        }
+        composable("guess_screen") {
+            GuessScreen(navController = navController)
+        }
+        composable("result_screen/{result}", arguments = listOf(
+            navArgument("result") { type = NavType.BoolType }
+        )) {
+            val result = it.arguments?.getBoolean("result")!!
+            ResultScreen(result = result)
+        }
+    }
+}
+
+@Composable
+fun HomePage(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
@@ -43,13 +69,13 @@ fun HomePage() {
         Text(text = "Tahmin Oyunu", fontSize = 40.sp)
         Image(
             painter = painterResource(id = R.drawable.zar_resim),
-            contentDescription =""
+            contentDescription = ""
         )
         Button(
-            onClick = { 
-                      
+            onClick = {
+                navController.navigate("guess_screen")
             },
-            modifier = Modifier.size(250.dp,50.dp),
+            modifier = Modifier.size(250.dp, 50.dp),
         ) {
             Text(text = "OYUNA BAŞLA")
         }
@@ -60,6 +86,6 @@ fun HomePage() {
 @Composable
 fun DefaultPreview() {
     GuessTheNumberTheme {
-        HomePage()
+
     }
 }
